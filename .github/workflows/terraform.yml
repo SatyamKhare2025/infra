@@ -1,3 +1,4 @@
+#Satyam
 name: Terraform Infrastructure
 
 # PR to main        → plan only
@@ -8,37 +9,37 @@ on:
   push:
     branches: [main]
     paths:
-      - 'envs/dev/**'
-      - 'modules/**'
+      - "envs/dev/**"
+      - "modules/**"
   pull_request:
     branches: [main]
     paths:
-      - 'envs/dev/**'
-      - 'modules/**'
+      - "envs/dev/**"
+      - "modules/**"
   workflow_dispatch:
     inputs:
       action:
-        description: 'Terraform action'
+        description: "Terraform action"
         required: true
-        default: 'plan'
+        default: "plan"
         type: choice
         options: [plan, apply, destroy]
       confirm_destroy:
         description: 'Type "destroy" to confirm destruction (required when action=destroy)'
         required: false
-        default: ''
+        default: ""
 
 permissions:
   contents: read
 
 env:
-  TF_VERSION: '1.15.6'
+  TF_VERSION: "1.15.6"
   AWS_REGION: us-east-1
 
 # Prevent parallel runs on the same branch — avoids state conflicts
 concurrency:
   group: terraform-${{ github.ref }}
-  cancel-in-progress: false   # wait, don't cancel — safer for Terraform
+  cancel-in-progress: false # wait, don't cancel — safer for Terraform
 
 jobs:
   # ── Plan ──────────────────────────────────────────────────────────────────
@@ -113,7 +114,7 @@ jobs:
     if: |
       (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply')
-    environment: dev   # ← pauses here and waits for manual approval
+    environment: dev # ← pauses here and waits for manual approval
     defaults:
       run:
         working-directory: envs/dev
@@ -162,7 +163,7 @@ jobs:
       github.event_name == 'workflow_dispatch' &&
       github.event.inputs.action == 'destroy' &&
       github.event.inputs.confirm_destroy == 'destroy'
-    environment: dev   # ← approval gate for destroy too
+    environment: dev # ← approval gate for destroy too
     defaults:
       run:
         working-directory: envs/dev
