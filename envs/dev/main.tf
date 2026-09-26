@@ -18,7 +18,6 @@ module "vpc" {
   database_subnet_cidrs = ["10.0.5.0/24", "10.0.6.0/24"]
 }
 
-
 module "eks" {
   source = "../../modules/eks"
 
