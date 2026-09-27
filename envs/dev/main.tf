@@ -1,3 +1,5 @@
+# ZenPharma Dev Environment — managed via GitHub Actions CI/CD
+
 locals {
   project = "pharma"
   env     = "dev"
@@ -17,7 +19,6 @@ module "vpc" {
   private_subnet_cidrs  = ["10.0.3.0/24", "10.0.4.0/24"]
   database_subnet_cidrs = ["10.0.5.0/24", "10.0.6.0/24"]
 }
-
 
 module "eks" {
   source = "../../modules/eks"
